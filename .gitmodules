@@ -1,0 +1,15 @@
+[submodule "javascripts/lib/Slog"]
+	path = javascripts/lib/Slog
+	url = git://github.com/keithcirkel/Slog.git
+[submodule "javascripts/lib/Mustache"]
+	path = javascripts/lib/Mustache
+	url = git://github.com/janl/mustache.js.git
+[submodule "javascripts/lib/Backbone"]
+	path = javascripts/lib/Backbone
+	url = git://github.com/documentcloud/backbone.git
+[submodule "javascripts/lib/Underscore"]
+	path = javascripts/lib/Underscore
+	url = git://github.com/documentcloud/underscore.git
+[submodule "javascripts/lib/jQuery"]
+	path = javascripts/lib/jQuery
+	url = git://github.com/jquery/jquery.git
