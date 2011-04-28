@@ -13,3 +13,6 @@
 [submodule "javascripts/lib/jQuery"]
 	path = javascripts/lib/jQuery
 	url = git://github.com/jquery/jquery.git
+[submodule "javascripts/lib/R.js"]
+	path = javascripts/lib/R.js
+	url = git://github.com/keithcirkel/R.js.git
