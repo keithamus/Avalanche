@@ -1,3 +1,4 @@
 *.css
 *.komodoproject
 .sass-cache
+img_src
