@@ -1,2 +1,3 @@
 *.css
 *.komodoproject
+.sass-cache
