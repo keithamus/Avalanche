@@ -1,0 +1,62 @@
+#statusbar {
+    height: 21px;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-top: 1px solid #000;
+
+    button {
+        @include appearance(none);
+
+        width: auto;
+        overflow: visible;
+        margin: 0;
+        appearance: none;
+        border: 0;
+        background: none;
+    }
+
+    .sep {
+        border: 1px dotted #000;
+    }
+}
+
+#toolbar_search, #toolbar_buttons, #toolbar_buttons li{
+    display: inline-block;
+    height: inherit;
+}
+
+#toolbar_buttons li {
+    min-width: 40px;
+    height: 40px;
+    float: left;
+
+    &.sep {
+        min-width: 0;
+    }
+
+    button {
+        display: block;
+        height: 40px;
+        line-height: 64px;
+    }
+}
+
+#toolbar_search {
+    float: right;
+    border: 1px solid #000;
+    background: #fff;
+    margin: 8px;
+    height: 25px;
+    width: 200px;
+}
+
+#toolbar_search_input {
+    @include appearance(textfield);
+    background: none;
+    border: 0;
+    height: 25px;
+    width: 180px;
+    outline: 0;
+}

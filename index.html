@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="css/application.css">
+        <link id="theme" rel="stylesheet" type="text/css" href="css/themes/default.css">
+    </head>
+    <body>
+        <header id="toolbar">
+            <nav id="toolbar_buttons">
+                <ul id="toolbar_buttons_list">
+
+                </ul>
+            </nav>
+
+            <div id="toolbar_search">
+                <button id="toolbar_search_dropdown"></button>
+                <input type="search" id="toolbar_search_input">
+            </div>
+        </header>
+
+        <section id="torrent_view">
+
+        </section>
+
+        <footer id="statusbar">
+            <p class="statusbar_count">
+
+            </p>
+            <p id="statusbar_dht">
+
+            </p>
+            <p class="statusbar_speeds">
+
+            </p>
+        </footer>
+        <!-- Logging library -->
+        <script type="text/javascript" src="javascripts/lib/slog-0.3.js"></script>
+
+        <!-- DOM Library -->
+        <script type="text/javascript" src="javascripts/lib/jquery-1.5.2.js"></script>
+
+        <!-- ECMA 5 utility library -->
+        <script type="text/javascript" src="javascripts/lib/underscore-1.1.6.js"></script>
+
+        <!-- MVC Pattern classes -->
+        <script type="text/javascript" src="javascripts/lib/backbone-0.3.3.js"></script>
+
+        <!-- Templating library -->
+        <script type="text/javascript" src="javascripts/lib/mustache-0.3.0.js"></script>
+
+        <!-- i18n Script -->
+        <script type="text/javascript" src="javascripts/lib/r-0.0.1.js"></script>
+
+        <!-- Add some extra goodies, like shortcuts and wrappers -->
+        <script type="text/javascript" src="javascripts/init.js"></script>
+
+        <!-- i18n Locales -->
+        <script type="text/javascript" src="javascripts/i18n/en-GB.js"></script>
+
+        <!-- Templates -->
+        <script type="text/javascript" src="javascripts/templates/toolbar.js"></script>
+
+        <!-- Models -->
+        <!-- Views -->
+        <script type="text/javascript" src="javascripts/view/toolbar.js"></script>
+        <script type="text/javascript" src="javascripts/view/statusbar.js"></script>
+        <!-- Controllers -->
+        <script type="text/javascript" src="javascripts/controller/application.js"></script>
+    </body>
+</html>

@@ -51,3 +51,9 @@ $.warn  = (Slog ? Slog.warn : function () {});
 $.error = (Slog ? Slog.error : function () {});
 $.info  = (Slog ? Slog.info : function () {});
 $.debug = (Slog ? Slog.debug : function () {});
+
+$(document).ready(function () {
+    $.log('Initialising Avalanche 2');
+    window.App = new Controllers.Application();
+    Backbone.history.start();
+});
