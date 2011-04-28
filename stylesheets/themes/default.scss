@@ -25,11 +25,16 @@
  *
  */
 @import 'compass';
+$legacy-support-for-ie: false;
+$support-for-original-webkit-gradients: false;
+$experimental-support-for-opera: false;
+$experimental-support-for-khtml: false;
 
 $border-color: #b6bac0;
 
 #toolbar, #statusbar {
     @include background-image(linear-gradient(color-stops(#f9f9f9, #e4e4e4)));
+    //Compass is yet to support IE10, see github.com/chriseppstein/compass/issues/361
     background-image: -ms-linear-gradient(#f9f9f9, #e4e4e4);
 }
 
@@ -40,13 +45,37 @@ $border-color: #b6bac0;
         border: 0;
         border-left: 1px dotted #ccc;
     }
+
+    li button {
+        background: url(../../img/themes/default/toolbar.png) no-repeat;
+        font-size: 11px;
+        @include text-shadow(0 1px 0 #fff);
+    }
+}
+
+
+$i: 40px;
+
+@each $icon in open remove resume pause resume_all pause_all about preferences {
+    #toolbar ##{$icon} {
+        background-position: center $i - 40px;
+
+        &:hover, &:focus {
+            opacity: 0.8;
+        }
+
+        &:active {
+            background-position: center $i - 80px;
+        }
+    }
+    $i: $i - 80px;
 }
 
 #toolbar_search {
     @include border-radius(4px);
+    @include box-shadow(0 1px 0 #fff);
 
     border: 1px solid #c6c6c6;
-    box-shadow: 0 1px 0 #fff;
 }
 
 #statusbar {

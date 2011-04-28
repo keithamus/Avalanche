@@ -27,5 +27,10 @@
 @import 'compass';
 @import 'reset';
 
+$legacy-support-for-ie: false;
+$support-for-original-webkit-gradients: false;
+$experimental-support-for-opera: false;
+$experimental-support-for-khtml: false;
+
 @import 'toolbar';
 @import 'statusbar';
