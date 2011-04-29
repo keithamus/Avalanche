@@ -3,7 +3,6 @@
  newcap: true, immed: true, maxlen: 80, indent: 4 */
 /*globals
     $: false,
-    _: false,
     Templates: false,
     Models: false,
     Views: false,
@@ -103,7 +102,7 @@ Views.Toolbar = $.view.extend({
 
         $.log('Rendering toolbar buttons', this.toolbar_buttons);
 
-        _.each(this.toolbar_buttons, function (button) {
+        $.u.each(this.toolbar_buttons, function (button) {
             html += $.tmpl(
                 Templates.toolbar[button.type], button);
         });

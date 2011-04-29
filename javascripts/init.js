@@ -2,7 +2,7 @@
  nomen: true, eqeqeq: true, plusplus: false, bitwise: true, regexp: true,
  newcap: true, immed: true, maxlen: 80, indent: 4 */
 /*globals window: false, Mustache: false, Backbone: false, $: false,
-    R: false, Slog: false */
+    R: false, Slog: false, _: false */
 /*
  * This is a simple script binder, to throw all that we need into $
  *
@@ -44,7 +44,8 @@ $.view  = Backbone.View;
 $.model = Backbone.Model;
 $.collection = Backbone.Collection;
 $.controller = Backbone.Controller;
-$.R  = R;
+$.R = R;
+$.u = _;
 //Slog wrappers
 $.log   = (Slog ? Slog.log : function () {});
 $.warn  = (Slog ? Slog.warn : function () {});
