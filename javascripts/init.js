@@ -44,6 +44,7 @@ $.view  = Backbone.View;
 $.model = Backbone.Model;
 $.collection = Backbone.Collection;
 $.controller = Backbone.Controller;
+$.localSync = Backbone.localSync;
 $.R = R;
 $.u = _;
 //Slog wrappers
