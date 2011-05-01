@@ -91,6 +91,15 @@ Models.Websearch = $.model.extend({
         }
     },
 
+    toString: function () {
+        return this.get('name');
+    },
+
+    // Function for Views.Dropdown
+    getIconURL: function () {
+        return this.get('favicon');
+    },
+
     // Set the favicon based on the URL
     setFavicon: function (u) {
         // Get the search URL from either args or from this.url
@@ -114,6 +123,8 @@ Models.WebsearchCollection = $.collection.extend({
 
     // Bind to our model:
     model: Models.Websearch,
+
+    current: {},
 
     // Define our storage method (localStorage, not REST)
     sync: $.localSync,
@@ -162,6 +173,9 @@ Models.WebsearchCollection = $.collection.extend({
         if (this.fetch() && this.length === 0) {
             this.add(this.default_Websearch_models).save();
         }
+
+        // Set the current search engine to the first:
+        this.current = this.first();
     },
 
     // Collections do not have a save() (its not RESTful to do so), but we're
