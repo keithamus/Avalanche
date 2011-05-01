@@ -1,0 +1,24 @@
+.dropdown {
+    position: fixed;
+    top: 0;
+    left: 0;
+    border: 1px solid #000;
+    background: #fff;
+
+    min-height: 50px;
+
+    li {
+        list-style: none;
+        background: none no-repeat 2px center;
+
+        a {
+            padding: 4px 4px 4px 22px;
+            display: block;
+        }
+    }
+
+    .sep {
+        border: 1px dotted #000;
+    }
+
+}

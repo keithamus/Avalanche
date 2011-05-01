@@ -1,5 +1,9 @@
+/*jslint white: true, browser: true, devel: true, onevar: true, undef: true,
+ nomen: true, eqeqeq: true, plusplus: false, bitwise: true, regexp: true,
+ newcap: true, immed: true, maxlen: 80, indent: 4 */
+/*globals Templates: true */
 /*
- * stylesheets/application.scss
+ * templates/dropdown.js
  *
  * Avalanche Project (http://avalanche-bt.com)
  *
@@ -24,14 +28,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-@import 'compass';
-@import 'reset';
 
-$legacy-support-for-ie: false;
-$support-for-original-webkit-gradients: false;
-$experimental-support-for-opera: false;
-$experimental-support-for-khtml: false;
+Templates.dropdown = {
 
-@import 'dropdown';
-@import 'toolbar';
-@import 'statusbar';
+    start:
+        '<div class="dropdown" id="{{id}}"><ol>',
+    end:
+        '</ol></div>',
+
+    separator:
+        '<li class="sep"></li>',
+
+    option:
+        '<li id="{{id}}" style="background-image: url({{icon}});">' +
+            '<a>{{text}}</a>' +
+        '</li>'
+
+};
