@@ -92,7 +92,7 @@ Views.Toolbar = $.view.extend({
     ],
 
     initialize: function () {
-        $.log('Initialised toolbar View');
+        $.info('Initialising Views.Toolbar');
         this.render();
     },
 
@@ -100,7 +100,7 @@ Views.Toolbar = $.view.extend({
 
         var html = '', button = '';
 
-        $.log('Rendering toolbar buttons', this.toolbar_buttons);
+        $.debug('Rendering toolbar buttons', this.toolbar_buttons);
 
         $.u.each(this.toolbar_buttons, function (button) {
             html += $.tmpl(
