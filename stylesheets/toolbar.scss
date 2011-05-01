@@ -9,13 +9,8 @@
     button {
         @include appearance(none);
 
-        width: auto;
         overflow: visible;
-        margin: 0;
-        appearance: none;
         border: 0;
-        background: none;
-        margin: 0 2px;
     }
 
     .sep {
@@ -38,8 +33,11 @@
     }
 
     button {
-        display: block;
+        width: auto;
         height: 40px;
+        background: none;
+        margin: 0 2px;
+        display: block;
         line-height: 64px;
     }
 }
@@ -53,11 +51,28 @@
     width: 200px;
 }
 
+#toolbar_search_dropdown {
+    width: 22px;
+    height: 25px;
+    background: none no-repeat left center;
+    margin-left: 2px;
+
+    &::after {
+        border: 3px solid transparent;
+        border-top-color: #888;
+        content: '';
+        display: block;
+        position: absolute;
+        margin-left: 12px;
+    }
+}
+
 #toolbar_search_input {
     @include appearance(textfield);
     background: none;
     border: 0;
     height: 25px;
-    width: 180px;
+    width: 172px;
     outline: 0;
+    float: right;
 }
