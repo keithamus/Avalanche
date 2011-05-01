@@ -57,6 +57,13 @@ Models.Websearch = $.model.extend({
                             "((?:\\w+\\.)(?:\\w{2,6}))" + // Domain and TLD
                             "(?:\/[\\?\\=\\:\\&\\/\\w\\-_]+)?"), // Routing
 
+    initialize: function () {
+        // If the URL is supplied already, but the favicon isn't, then set it
+        if (this.get('url')) {
+            this.setFavicon();
+        }
+    },
+
     // Validate the model data when changed (must have a domain, contain a %s)
     validate: function (attrs) {
         var match;
