@@ -44,9 +44,16 @@ Controllers.Application = $.controller.extend({
     },
 
     index: function () {
-        $.log('Starting Index Controller');
-        window.App.Views = {
-            Toolbar: new Views.Toolbar()
+        $.info('Initialising Controllers.Application');
+        this.App = {
+            Controllers: {
+            },
+            Models: {
+                Websearch: new Models.WebsearchCollection()
+            },
+            Views: {
+                Toolbar: new Views.Toolbar()
+            }
         };
     }
 

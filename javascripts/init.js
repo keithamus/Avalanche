@@ -45,6 +45,7 @@ $.model = Backbone.Model;
 $.collection = Backbone.Collection;
 $.controller = Backbone.Controller;
 $.localSync = Backbone.localSync;
+$.localStore = Store;
 $.R = R;
 $.u = _;
 //Slog wrappers
