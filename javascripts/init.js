@@ -1,8 +1,16 @@
 /*jslint white: true, browser: true, devel: true, onevar: true, undef: true,
  nomen: true, eqeqeq: true, plusplus: false, bitwise: true, regexp: true,
  newcap: true, immed: true, maxlen: 80, indent: 4 */
-/*globals window: false, Mustache: false, Backbone: false, $: false,
-    R: false, Slog: false, _: false */
+/*globals
+    window: false,
+    Mustache: false,
+    Backbone: false,
+    $: false,
+    R: false,
+    Slog: false,
+    _: false,
+    Store: false
+*/
 /*
  * This is a simple script binder, to throw all that we need into $
  *
@@ -55,8 +63,8 @@ $.error = (Slog ? Slog.error : function () {});
 $.info  = (Slog ? Slog.info : function () {});
 $.debug = (Slog ? Slog.debug : function () {});
 
-$(document).ready(function () {
-    $.log('Initialising Avalanche 2');
+$(document).ready(function InistialiseAvalanche() {
+    $.info('Initialising Avalanche');
     window.App = new Controllers.Application();
     Backbone.history.start();
 });
