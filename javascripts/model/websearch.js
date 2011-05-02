@@ -141,31 +141,38 @@ Models.WebsearchCollection = $.collection.extend({
     // in localstorage. Just a fairly general set of popular engines.
     default_Websearch_models: [
         {
+            order: 1,
             name: 'Google',
             url: 'http://www.google.com/search?hl=en&q=%s+filetype:torrent' +
                 '&btnG=Search'
         },
         {
+            order: 2,
             name: 'MiniNova',
             url: 'http://www.mininova.org/search/?search=%s&cat=0'
         },
         {
+            order: 3,
             name: 'PirateBay',
             url: 'http://thepiratebay.org/search/%s/0/99/0'
         },
         {
+            order: 4,
             name: 'Torrentz',
             url: 'http://torrentz.com/search?q=%s'
         },
         {
+            order: 5,
             name: 'Demonoid',
             url: 'http://www.demonoid.com/files/?query=%s'
         },
         {
+            order: 6,
             name: 'btJunkie',
             url: 'http://btjunkie.org/search?q=%s'
         },
         {
+            order: 7,
             name: 'LinuxTracker',
             url: 'http://linuxtracker.org/index.php?page=torrents&' +
                 'search=%s&category=0&active=1&tracker=0'
@@ -181,15 +188,25 @@ Models.WebsearchCollection = $.collection.extend({
             this.add(this.default_Websearch_models).save();
         }
 
+        // Bind to our own change event, with a save function
+        this.bind('change', $.u.bind(this.save, this));
+
         // Set the current search engine to the first:
         this.current = this.first();
+    },
+
+    // Keep the models in order of `order`
+    comparator: function (model) {
+        return model.get('order');
     },
 
     // Collections do not have a save() (its not RESTful to do so), but we're
     // using localStorage, so its ok for us to have one;
     save: function () {
-        this.each(function saveEachWebsearch(model) {
-            model.save();
+        var i = 1;
+        this.sort().each(function saveEachWebsearch(model) {
+            model.save({order: i}, {silent: true});
+            ++i;
         });
     }
 
