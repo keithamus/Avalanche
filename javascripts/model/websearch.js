@@ -208,7 +208,13 @@ Models.WebsearchCollection = $.collection.extend({
             model.save({order: i}, {silent: true});
             ++i;
         });
-    }
+    },
 
+    // Set the current search engine to something different
+    setCurrent: function (cid) {
+        this.current = this.getByCid(cid);
+        this.trigger('change current', this, {current: this.current});
+        return this.current;
+    }
 
 });

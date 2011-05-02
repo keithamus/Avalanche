@@ -49,14 +49,14 @@ Views.Websearch = $.view.extend({
         $.info('Initialising Views.Websearch');
 
         // Bind our model to this view.
-        this.model.bind('change', this.render);
+        this.model.bind('change current', $.u.bind(this.render, this));
         this.model.view = this;
 
         this.render();
     },
 
     render: function () {
-        $.debug('Setting search engine to ', this.model.current);
+        $.debug('Setting search engine to ' + this.model.current.toString());
         this.setDropdownImage(this.model.current);
     },
 
@@ -103,8 +103,7 @@ Views.Websearch = $.view.extend({
     },
 
     changeCurrentWebsearch: function (dropdown, args) {
-        this.model.current = this.model.getByCid(args.id);
-        this.render();
+        this.model.setCurrent(args.id);
     },
 
     setDropdownImage: function (model) {
