@@ -177,7 +177,7 @@ Models.WebsearchCollection = $.collection.extend({
         $.info('Initialising Models.WebsearchCollection');
 
         // Fetch our potential engines from localStorage, or set the default
-        if (this.fetch() && this.length === 0) {
+        if (!this.fetch() && this.length === 0) {
             this.add(this.default_Websearch_models).save();
         }
 
@@ -189,7 +189,6 @@ Models.WebsearchCollection = $.collection.extend({
     // using localStorage, so its ok for us to have one;
     save: function () {
         this.each(function saveEachWebsearch(model) {
-            $.log(model);
             model.save();
         });
     }
