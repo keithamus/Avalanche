@@ -53,6 +53,9 @@ Views.Dropdown = $.view.extend({
         // Set some of our options in this
         $.u.extend(this, this.options);
 
+        // Remove all currently open dropdowns
+        $('.dropdown').remove();
+
         // Add the dropdown#id HTML to <body>
         $('body').append(this.render());
 
