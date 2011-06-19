@@ -48,6 +48,8 @@ Controllers.Application = $.controller.extend({
         '':  'index',
         'torrent/:id':  'torrent'
     },
+    
+    index: function () {},
 
     index: function () {
         $.info('Initialising Controllers.Application');
