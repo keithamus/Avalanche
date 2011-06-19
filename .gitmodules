@@ -1,9 +1,6 @@
 [submodule "javascripts/lib/Slog"]
 	path = javascripts/lib/Slog
 	url = git://github.com/keithcirkel/Slog.git
-[submodule "javascripts/lib/Mustache"]
-	path = javascripts/lib/Mustache
-	url = git://github.com/janl/mustache.js.git
 [submodule "javascripts/lib/Backbone"]
 	path = javascripts/lib/Backbone
 	url = git://github.com/documentcloud/backbone.git

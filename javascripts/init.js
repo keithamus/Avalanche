@@ -1,5 +1,5 @@
 /*jslint white: true, browser: true, devel: true, onevar: true, undef: true,
- nomen: true, eqeqeq: true, plusplus: false, bitwise: true, regexp: true,
+ nomen: false, eqeqeq: true, plusplus: false, bitwise: true, regexp: true,
  newcap: true, immed: true, maxlen: 80, indent: 4 */
 /*globals
     window: false,
@@ -47,7 +47,6 @@
 var Templates = {}, Models = {}, Views = {}, Controllers = {};
 
 //Library shortcuts
-$.tmpl  = Mustache.to_html;
 $.view  = Backbone.View;
 $.model = Backbone.Model;
 $.collection = Backbone.Collection;
@@ -56,6 +55,18 @@ $.localSync = Backbone.localSync;
 $.localStore = Store;
 $.R = R;
 $.u = _;
+$.tmpl  = $.u.template;
+
+$.u.templateSettings = {
+    evaluate: /\{#([\s\S]+?)#\}/g,
+    interpolate: /\{\{([\s\S]+?)\}\}/g
+};
+
+// Torrent Sync Engines
+$.torrentSync = {
+    RtorrentXMLRPC: Backbone.torrentSyncRtorrentXMLRPC
+};
+
 //Slog wrappers
 $.log   = (Slog ? Slog.log : function () {});
 $.warn  = (Slog ? Slog.warn : function () {});
