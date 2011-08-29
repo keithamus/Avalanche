@@ -3,7 +3,7 @@ QUIET=false
 
 dev: FOR = "development"
 
-all: tests clean submodules css html js
+all: tests clean submodules css resources html js
 	@@if ! ${QUIET}; then echo "Done"; fi
 
 dev: all
@@ -20,6 +20,10 @@ css: clean
 js:
 	@@if ! ${QUIET}; then echo "Compressing code..."; fi
 	@@cp -r javascripts build/
+	
+resources: 
+	@@if ! ${QUIET}; then echo "Compressing images..."; fi
+	@@cp -r themes_res build/themes/res
 
 html:
 	@@if ! ${QUIET}; then echo "Compressing HTML..."; fi
@@ -36,5 +40,5 @@ watch:
 	@@if ! ${QUIET}; then echo "Watching directory for changes..."; fi
 	@@inotifywait -qmr -e close_write,move_self,create --format '%f' --exclude '(build*|.scssc)' . | while read FILE; do \
 		echo "Compiling because of a change found to $${FILE}"; \
-		$(MAKE) clean css html js QUIET=true -s; \
+		$(MAKE) clean css resources html js QUIET=true -s; \
 	done;
