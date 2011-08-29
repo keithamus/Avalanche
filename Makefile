@@ -1,6 +1,10 @@
-for?="production"
+for="production"
+dev: for = "development"
 
 all: tests clean submodules css html js
+	@@echo "Done"
+
+dev: all
 
 submodules:
 	@@echo "Updating Git submodules..."
