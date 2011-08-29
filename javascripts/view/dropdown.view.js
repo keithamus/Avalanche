@@ -41,7 +41,7 @@ Views.Dropdown = $.view.extend({
     el: '',
 
     // Some defaults:
-    id: 'dropdown-' + Number(new Date()),
+    id: '',
     x: 0,
     y: 0,
     choices: {},
@@ -63,12 +63,15 @@ Views.Dropdown = $.view.extend({
             '</li>'
     },
 
-    initialize: function () {
+    initialize: function (options) {
         $.info('Initialising Views.Dropdown');
-
-        // Set some of our options in this
-        _.extend(this, this.options);
-
+        
+        this.id = options.id || 'dropdown-' + Number(new Date());
+        this.x = options.x;
+        this.y = options.y;
+        this.choices = options.choices;
+        this.selection = options.selection;
+        
         // Remove all currently open dropdowns
         $('.dropdown').remove();
 
@@ -128,7 +131,7 @@ Views.Dropdown = $.view.extend({
     },
 
     renderChoice: function (mainid, choice, isModel) {
-        return $.tmpl(this.templates.dropdown[choice.type || 'option'], {
+        return $.tmpl(this.templates[choice.type || 'option'], {
             id: mainid + '-' + (isModel ? choice.cid : choice.id),
             text: (isModel ? choice.toString() : choice.text),
             icon: (isModel ? choice.getIconURL() : choice.icon)

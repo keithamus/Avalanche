@@ -38,18 +38,18 @@
 
 Views.Websearch = $.view.extend({
 
-    el: $('#toolbar_search'),
+    el: '#toolbar_search',
 
-    websearch: {
-        button: $('#toolbar_search_dropdown'),
-        input:  $('#toolbar_search_input')
+    elements: {
+        '#toolbar_search_dropdown': 'buttonEl',
+        '#toolbar_search_input': 'inputEl'
     },
 
     initialize: function () {
         $.info('Initialising Views.Websearch');
 
         // Bind our model to this view.
-        this.model.bind('change current', _.bind(this.render, this));
+        this.model.bind('change current', this.render, this);
         this.model.view = this;
 
         this.render();
@@ -76,7 +76,7 @@ Views.Websearch = $.view.extend({
         })
         // Bind to the "selected" trigger on the dropdown view, which triggers
         // when the user clicks an option from the dropdown
-        .bind('selected', _.bind(this.changeCurrentWebsearch, this));
+        .bind('selected', this.changeCurrentWebsearch, this);
     },
 
     keyupInput: function (e) {
@@ -90,7 +90,7 @@ Views.Websearch = $.view.extend({
         case 8: //backspace
             break;
         case 27: //esc
-            this.websearch.input.val('').blur();
+            this.inputEl.val('').blur();
             break;
         default:
             break;
@@ -107,7 +107,7 @@ Views.Websearch = $.view.extend({
     },
 
     setDropdownImage: function (model) {
-        this.websearch.button.css({
+        this.buttonEl.css({
             backgroundImage: 'url(' + model.attributes.favicon + ')'
         });
     }

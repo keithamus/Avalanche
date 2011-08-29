@@ -38,11 +38,11 @@
 
 Views.Toolbar = $.view.extend({
 
-    el: $('#toolbar'),
+    el: '#toolbar',
 
-    toolbar: {
-        buttons: $('#toolbar_buttons_list'),
-        search:  $('#toolbar_search')
+    elements: {
+        '#toolbar_buttons_list': 'buttonsEl',
+        '#toolbar_search': 'searchEl'
     },
 
     toolbar_buttons: [
@@ -109,16 +109,15 @@ Views.Toolbar = $.view.extend({
     },
 
     render: function () {
-
-        var html = '', button = '';
-
+        var html = '';
+        
         $.debug('Rendering toolbar buttons', this.toolbar_buttons);
-
+        
         _.each(this.toolbar_buttons, function (button) {
             html += $.tmpl(this.templates[button.type], button);
         }, this);
-
-        return this.toolbar.buttons.html(html);
+        
+        return this.buttonsEl.html(html);
     },
 
     events: {

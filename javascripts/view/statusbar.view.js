@@ -37,14 +37,13 @@
  */
 
 Views.Statusbar = $.view.extend({
-
-    el: $('#statusbar'),
-
-    statusbar: {
-        count:  $('#statusbar_count'),
-        dht:    $('#statusbar_dht'),
-        speeds: $('#statusbar_speeds')
-
+    
+    el: '#statusbar',
+    
+    elements: {
+        count:  '#statusbar_count',
+        dht:    '#statusbar_dht',
+        speeds: '#statusbar_speeds'
     },
 
     initialize: function () {

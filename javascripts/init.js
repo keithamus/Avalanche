@@ -56,7 +56,7 @@ $.tmpl  = _.template;
 $.view  = Backbone.View;
 $.model = Backbone.Model;
 $.collection = Backbone.Collection;
-$.controller = Backbone.Controller;
+$.controller = Backbone.Router;
 $.localSync = Backbone.localSync;
 $.localStore = Store;
 $.R = R;
@@ -65,18 +65,3 @@ $.R = R;
 $.torrentSync = {
     RtorrentXMLRPC: Backbone.torrentSyncRtorrentXMLRPC
 };
-
-//Slog wrappers
-$.log   = (Slog ? Slog.log : function () {});
-$.warn  = (Slog ? Slog.warn : function () {});
-$.error = (Slog ? Slog.error : function () {});
-$.info  = (Slog ? Slog.info : function () {});
-$.debug = (Slog ? Slog.debug : function () {});
-
-$(document).ready(function InistialiseAvalanche() {
-    $.info('Initialising Avalanche');
-    window.App = new Controllers.Application({
-        prefs: new Models.PreferencesCollection()
-    });
-    Backbone.history.start();
-});

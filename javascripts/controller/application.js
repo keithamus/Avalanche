@@ -38,33 +38,30 @@
 
 Controllers.Application = $.controller.extend({
 
-    App: {
-        Controllers: {},
-        Models: {},
-        Views: {}
-    },
-
+    Controllers: {},
+    Models: {},
+    Views: {},
+    
     routes: {
         '':  'index',
         'torrent/:id':  'torrent'
     },
     
-    index: function () {},
-
     index: function () {
         $.info('Initialising Controllers.Application');
 
-        this.App.Controllers = {
+        this.Controllers = {
         };
 
-        this.App.Models = {
-            Websearch: new Models.WebsearchCollection()
+        this.Models = {
+            Websearch: new Models.WebsearchCollection(),
+            Torrents: new Models.TorrentCollection()
         };
 
-        this.App.Views = {
+        this.Views = {
             Toolbar: new Views.Toolbar(),
             Websearch: new Views.Websearch({
-                model: this.App.Models.Websearch
+                model: this.Models.Websearch
             })
         };
     }

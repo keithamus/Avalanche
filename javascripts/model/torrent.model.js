@@ -38,6 +38,9 @@
 
 Models.Torrent = $.model.extend({
 
+    url: '/RPC',
+    sync: $.torrentSync.RtorrentXMLRPC,
+
     defaults: {
         name: '',
         alias: '',
@@ -66,4 +69,18 @@ Models.Torrent = $.model.extend({
         $.log('Added torrent');
     }
 
+});
+
+Models.TorrentCollection = $.collection.extend({
+    
+    url: '/RPC',
+    sync: $.torrentSync.RtorrentXMLRPC,
+    
+    model: Models.Torrent,
+    
+    initialize: function () {
+        $.info('Initialising Models.TorrentCollection');
+        this.fetch();
+    }
+    
 });

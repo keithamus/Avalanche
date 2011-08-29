@@ -189,7 +189,7 @@ Models.WebsearchCollection = $.collection.extend({
         }
 
         // Bind to our own change event, with a save function
-        this.bind('change', _.bind(this.save, this));
+        this.bind('change', this.save, this);
 
         // Set the current search engine to the first:
         this.current = this.first();
