@@ -15,9 +15,9 @@ js:
 	@@cp -r javascripts build/
 
 html:
-  @@echo "Compressing HTML..."
+	@@echo "Compressing HTML..."
 	@@cp index.html build/
-
+	
 tests:
 	@@echo "Running tests..."
 
