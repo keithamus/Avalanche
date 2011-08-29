@@ -47,28 +47,23 @@ $border-color: #b6bac0;
     }
 
     li button {
-        background: url(../../img/themes/default/toolbar.png) no-repeat;
+        background-position: center 2px;
+        background-size: 26px 26px;
+        background-repeat: no-repeat;
         font-size: 11px;
         @include text-shadow(0 1px 0 #fff);
-    }
-}
-
-
-$i: 40px;
-
-@each $icon in open remove resume pause resume_all pause_all about preferences {
-    #toolbar ##{$icon} {
-        background-position: center $i - 40px;
-
+        
         &:hover, &:focus {
             opacity: 0.8;
         }
-
-        &:active {
-            background-position: center $i - 80px;
-        }
     }
-    $i: $i - 80px;
+
+}
+
+@each $icon in open remove resume pause resume_all pause_all about preferences {
+    #toolbar ##{$icon} {
+        background-image: url(res/default/#{$icon}.icon.svg);
+    }
 }
 
 #toolbar_search {
