@@ -1,30 +1,40 @@
-for="production"
-dev: for = "development"
+FOR="production"
+QUIET=false
+
+dev: FOR = "development"
 
 all: tests clean submodules css html js
-	@@echo "Done"
+	@@if ! ${QUIET}; then echo "Done"; fi
 
 dev: all
 
 submodules:
-	@@echo "Updating Git submodules..."
+	@@if ! ${QUIET}; then echo "Updating Git submodules..."; fi
 	@@git submodule init && git submodule update
 
 css: clean
-	@@echo "Compiling CSS code for $(for)..."
-	@@compass compile -e $(for) stylesheets/application.scss stylesheets/themes/*
+	@@if ! ${QUIET}; then echo "Compiling CSS code for ${FOR}..."; fi
+	@@if ! ${QUIET}; then ARGS=""; else ARGS="q"; fi; \
+	compass compile -$${ARGS}e ${FOR} stylesheets/application.scss stylesheets/themes/*
 
 js:
-	@@echo "Compressing code..."
+	@@if ! ${QUIET}; then echo "Compressing code..."; fi
 	@@cp -r javascripts build/
 
 html:
-	@@echo "Compressing HTML..."
+	@@if ! ${QUIET}; then echo "Compressing HTML..."; fi
 	@@cp index.html build/
 	
 tests:
-	@@echo "Running tests..."
+	@@if ! ${QUIET}; then echo "Running tests..."; fi
 
 clean:
 	@@rm -rf build/*
-	@@echo "Cleaned build directory."
+	@@if ! ${QUIET}; then echo "Cleaned build directory."; fi
+
+watch:
+	@@if ! ${QUIET}; then echo "Watching directory for changes..."; fi
+	@@inotifywait -qmr -e close_write,move_self,create --format '%f' --exclude '(build*|.scssc)' . | while read FILE; do \
+		echo "Compiling because of a change found to $${FILE}"; \
+		$(MAKE) clean css html js QUIET=true -s; \
+	done;
