@@ -1,9 +1,9 @@
 /*jslint white: true, browser: true, devel: true, onevar: true, undef: true,
- nomen: true, eqeqeq: true, plusplus: false, bitwise: true, regexp: true,
+ nomen: false, eqeqeq: true, plusplus: false, bitwise: true, regexp: true,
  newcap: true, immed: true, maxlen: 80, indent: 4 */
 /*globals
     $: false,
-    Templates: false,
+    _: false,
     Models: false,
     Views: false,
     Controllers: false,
@@ -49,7 +49,7 @@ Views.Websearch = $.view.extend({
         $.info('Initialising Views.Websearch');
 
         // Bind our model to this view.
-        this.model.bind('change current', $.u.bind(this.render, this));
+        this.model.bind('change current', _.bind(this.render, this));
         this.model.view = this;
 
         this.render();
@@ -76,7 +76,7 @@ Views.Websearch = $.view.extend({
         })
         // Bind to the "selected" trigger on the dropdown view, which triggers
         // when the user clicks an option from the dropdown
-        .bind('selected', $.u.bind(this.changeCurrentWebsearch, this));
+        .bind('selected', _.bind(this.changeCurrentWebsearch, this));
     },
 
     keyupInput: function (e) {

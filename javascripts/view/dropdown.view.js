@@ -1,9 +1,9 @@
 /*jslint white: true, browser: true, devel: true, onevar: true, undef: true,
- nomen: true, eqeqeq: true, plusplus: false, bitwise: true, regexp: true,
+ nomen: false, eqeqeq: true, plusplus: false, bitwise: true, regexp: true,
  newcap: true, immed: true, maxlen: 80, indent: 4 */
 /*globals
     $: false,
-    Templates: false,
+    _: false,
     Models: false,
     Views: false,
     Controllers: false,
@@ -46,12 +46,28 @@ Views.Dropdown = $.view.extend({
     y: 0,
     choices: {},
     selection: false,
+    
+    templates: {
+        start:
+            '<div class="dropdown" id="{{id}}"><ol>',
+            
+        end:
+            '</ol></div>',
+            
+        separator:
+            '<li class="sep"></li>',
+            
+        option:
+            '<li id="{{id}}" style="background-image: url({{icon}});">' +
+                '<a>{{text}}</a>' +
+            '</li>'
+    },
 
     initialize: function () {
         $.info('Initialising Views.Dropdown');
 
         // Set some of our options in this
-        $.u.extend(this, this.options);
+        _.extend(this, this.options);
 
         // Remove all currently open dropdowns
         $('.dropdown').remove();
@@ -71,25 +87,25 @@ Views.Dropdown = $.view.extend({
 
     render: function () {
 
-        var self = this, html = '', choice = '', id = this.id;
+        var html = '', choice = '', id = this.id;
 
         $.debug('Rendering dropdown options', this.choices);
 
         // Add the #dropdown div wrapper to HTML:
-        html = $.tmpl(Templates.dropdown.start, {id: this.id});
+        html = $.tmpl(this.templates.start, {id: this.id});
 
         //Check if we need to iterate over a model or object
         if (this.choices.each) {
             this.choices.each(function (choice) {
-                html += self.renderChoice(id, choice, true);
-            });
+                html += this.renderChoice(id, choice, true);
+            }, this);
         } else {
-            $.u.each(this.choices, function (choice) {
-                html += self.renderChoice(id, choice);
-            });
+            _.each(this.choices, function (choice) {
+                html += this.renderChoice(id, choice);
+            }, this);
         }
 
-        return html + Templates.dropdown.end;
+        return html + this.templates.end;
     },
 
     events: {
@@ -112,7 +128,7 @@ Views.Dropdown = $.view.extend({
     },
 
     renderChoice: function (mainid, choice, isModel) {
-        return $.tmpl(Templates.dropdown[choice.type || 'option'], {
+        return $.tmpl(this.templates.dropdown[choice.type || 'option'], {
             id: mainid + '-' + (isModel ? choice.cid : choice.id),
             text: (isModel ? choice.toString() : choice.text),
             icon: (isModel ? choice.getIconURL() : choice.icon)

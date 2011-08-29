@@ -47,7 +47,12 @@
 var Templates = {}, Models = {}, Views = {}, Controllers = {};
 
 //Library shortcuts (losely couple frameworks for easy switching)
-$.tmpl  = Mustache.to_html;
+_.templateSettings = {
+    evaluate: /\{#([\s\S]+?)#\}/g,
+    interpolate: /\{\{([\s\S]+?)\}\}/g
+};
+
+$.tmpl  = _.template;
 $.view  = Backbone.View;
 $.model = Backbone.Model;
 $.collection = Backbone.Collection;
@@ -55,7 +60,6 @@ $.controller = Backbone.Controller;
 $.localSync = Backbone.localSync;
 $.localStore = Store;
 $.R = R;
-$.u = _;
 
 // Torrent Sync Engines
 $.torrentSync = {

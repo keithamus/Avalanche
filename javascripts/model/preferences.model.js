@@ -1,9 +1,9 @@
 /*jslint white: true, browser: true, devel: true, onevar: true, undef: true,
- nomen: true, eqeqeq: true, plusplus: false, bitwise: true, regexp: true,
+ nomen: false, eqeqeq: true, plusplus: false, bitwise: true, regexp: true,
  newcap: true, immed: true, maxlen: 80, indent: 4 */
 /*globals
     $: false,
-    Templates: false,
+    _: false,
     Models: false,
     Views: false,
     Controllers: false,
@@ -85,12 +85,12 @@ Models.PreferencesCollection = $.collection.extend({
     },
 
     // Assert wether the value of `name` is equal to `value`
-    assetPref: function (self, name, value) {
+    assertPref: function (self, name, value) {
         return this.checkPref(self.cid, name) === value;
     },
 
     // Remove a preference
-    remPref: function (self, name, value) {
+    removePref: function (self, name, value) {
         if (this.checkPref(self.cid, name)) {
             this.byParentCid[self.cid].unset(name);
         }

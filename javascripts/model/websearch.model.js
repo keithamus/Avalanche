@@ -1,9 +1,9 @@
 /*jslint white: true, browser: true, devel: true, onevar: true, undef: true,
- nomen: true, eqeqeq: true, plusplus: false, bitwise: true, regexp: true,
+ nomen: false, eqeqeq: true, plusplus: false, bitwise: true, regexp: true,
  newcap: true, immed: true, maxlen: 80, indent: 4 */
 /*globals
     $: false,
-    Templates: false,
+    _: false,
     Models: false,
     Views: false,
     Controllers: false,
@@ -189,7 +189,7 @@ Models.WebsearchCollection = $.collection.extend({
         }
 
         // Bind to our own change event, with a save function
-        this.bind('change', $.u.bind(this.save, this));
+        this.bind('change', _.bind(this.save, this));
 
         // Set the current search engine to the first:
         this.current = this.first();

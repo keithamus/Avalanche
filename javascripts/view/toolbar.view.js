@@ -1,9 +1,9 @@
 /*jslint white: true, browser: true, devel: true, onevar: true, undef: true,
- nomen: true, eqeqeq: true, plusplus: false, bitwise: true, regexp: true,
+ nomen: false, eqeqeq: true, plusplus: false, bitwise: true, regexp: true,
  newcap: true, immed: true, maxlen: 80, indent: 4 */
 /*globals
     $: false,
-    Templates: false,
+    _: false,
     Models: false,
     Views: false,
     Controllers: false,
@@ -90,6 +90,18 @@ Views.Toolbar = $.view.extend({
             text: $.R('toolbar.buttons.preferences')
         }
     ],
+    
+    templates: {
+        button:
+            '<li>' +
+                '<button id="{{id}}">' +
+                    '{{text}}' +
+                '</button>' +
+            '</li>',
+                
+        separator:
+            '<li class="sep"></li>'
+    },
 
     initialize: function () {
         $.info('Initialising Views.Toolbar');
@@ -102,10 +114,9 @@ Views.Toolbar = $.view.extend({
 
         $.debug('Rendering toolbar buttons', this.toolbar_buttons);
 
-        $.u.each(this.toolbar_buttons, function (button) {
-            html += $.tmpl(
-                Templates.toolbar[button.type], button);
-        });
+        _.each(this.toolbar_buttons, function (button) {
+            html += $.tmpl(this.templates[button.type], button);
+        }, this);
 
         return this.toolbar.buttons.html(html);
     },
