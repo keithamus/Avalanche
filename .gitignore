@@ -2,3 +2,4 @@
 *.komodoproject
 .sass-cache
 img_src
+build
