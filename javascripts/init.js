@@ -46,7 +46,8 @@
 
 var Templates = {}, Models = {}, Views = {}, Controllers = {};
 
-//Library shortcuts
+//Library shortcuts (losely couple frameworks for easy switching)
+$.tmpl  = Mustache.to_html;
 $.view  = Backbone.View;
 $.model = Backbone.Model;
 $.collection = Backbone.Collection;
@@ -55,12 +56,6 @@ $.localSync = Backbone.localSync;
 $.localStore = Store;
 $.R = R;
 $.u = _;
-$.tmpl  = $.u.template;
-
-$.u.templateSettings = {
-    evaluate: /\{#([\s\S]+?)#\}/g,
-    interpolate: /\{\{([\s\S]+?)\}\}/g
-};
 
 // Torrent Sync Engines
 $.torrentSync = {
@@ -76,6 +71,8 @@ $.debug = (Slog ? Slog.debug : function () {});
 
 $(document).ready(function InistialiseAvalanche() {
     $.info('Initialising Avalanche');
-    window.App = new Controllers.Application();
+    window.App = new Controllers.Application({
+        prefs: new Models.PreferencesCollection()
+    });
     Backbone.history.start();
 });
