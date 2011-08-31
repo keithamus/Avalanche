@@ -43,6 +43,9 @@
     
     SyncEngine.prototype = {
         
+        
+        _dataFragment: {},
+        
         templates: {
             message:
                 '<?xml version="1.0"?>' +
@@ -52,6 +55,29 @@
                         '{{params}}' +
                     '</params>' +
                 '</methodCall>',
+                
+            multicall:
+                '<?xml version="1.0"?>' +
+                '<methodCall>' +
+                    '<methodName>system.multicall</methodName>' +
+                    '<params><param><value><array><data>' +
+                        '{{multicall}}' +
+                    '</data></array></value></param></params>' +
+                    '</methodCall>',
+                    
+            multicall_message:
+                '<value><struct>' +
+                    '<member>' +
+                        '<name>methodName</name>' +
+                        '<value><string>{{command}}</string></value>' +
+                    '</member>' +
+                    '<member><name>params</name><value><array><data>' +
+                            '{{params}}' +
+                    '</data></array></value></member>' +
+                '</struct></value>',
+                
+            multicall_param:
+                '<value><{{type}}>{{param}}</{{type}}></value>',
                 
             param:
                 '<param><value><{{type}}>{{param}}</{{type}}></value></param>'
@@ -63,13 +89,13 @@
                 methodName + 'Collection' :
                 methodName;
                 
+            this.methodName = methodName;
             this.model = model;
             this.options = options;
             
-            $.debug('Attempting to call syncEngine.' + methodName);
+            $.debug('syncEngine.' + methodName + ' being called');
             
             if (this[methodName]) {
-                $.debug(methodName, options);
                 return this[methodName]();
             } else {
                 throw new Error('syncEngine has no method ' + methodName);
@@ -77,46 +103,81 @@
             return false;
         },
         
-        _sendMessage: function (command, values, callback) {
+        _sendMessage: function (message, callback) {
             $.ajax({
                 type: 'POST',
                 dataType: 'xml',
                 url: this.model.url,
-                data: this._formatXMLRPCMsg(command, values),
+                data: this._formatXMLRPCMsg(message),
                 success: _.bind(function (data) {
-                    data = $(data);
-                    $.debug('Received message from server', data.get(0));
+                    $.debug('syncEngine.' + this.methodName + ' got', data);
+                    
                     if ($(data).find('fault').length > 0) {
-                        var fault = $(data).find('fault string').text();
-                        this.model.trigger('error', fault);
+                        this.options.error($(data).find('fault string').text());
                     }
-                    if (callback) {
-                        callback(data);
+                    if (callback && !_.isArray(callback)) {
+                        this._dataFragment = $(data).find('value:eq(0)>array');
+                        callback.call(this, this._dataFragment);
+                    } else if (callback) {
+                        _.each(callback, function (fn, i) {
+                            if (fn) {
+                                this._dataFragment =
+                                    $(data).find('value:eq(0)>array' +
+                                                 '>data>value:eq' + i +
+                                                 '>array');
+                                fn.call(this, this._dataFragment);
+                            }
+                        }, this);
                     }
+                    
+                    this.options.success(this.successJSON);
                 }, this)
             });
         },
         
-        _formatXMLRPCMsg: function (command, values) {
-            var params = '';
+        _formatXMLRPCMsg: function (messages) {
+            var ret = '', multi = messages.length > 1,
+                message_tmpl = multi ?
+                    this.templates.multicall_message :
+                    this.templates.message,
+                params_tmpl = multi ?
+                    this.templates.multicall_param :
+                    this.templates.param;
             
-            _.each(values, function (value) {
-                var type = typeof value === "number" ? 'i8' : 'string';
-                params += $.tmpl(this.templates.param, {
-                    param: value,
-                    type: type
+            _.each(messages, function (message) {
+                ret += $.tmpl(message_tmpl, {
+                    command: message[0],
+                    params: this._formatXMLRPCParams(message[1], params_tmpl)
                 });
             }, this);
             
-            $.debug($.tmpl(this.templates.message, {
-                command: command,
-                params: params
-            }));
+            return multi ?
+                $.tmpl(this.templates.multicall, {multicall: ret}) : ret;
+        },
+        
+        _formatXMLRPCParams: function (params, template) {
+            var ret = '';
             
-            return $.tmpl(this.templates.message, {
-                command: command,
-                params: params
-            });
+            _.each(params, function (value) {
+                var type = typeof value === "number" ? 'i8' : 'string';
+                ret += $.tmpl(template, { param: value, type: type });
+            }, this);
+            
+            return ret;
+        },
+        
+        _getNode: function (n, nodename) {
+            n = n || 0;
+            nodename = nodename || 'value';
+            return this._dataFragment.find(nodename).eq(n).text();
+        },
+        
+        _getNodeBool: function (n, nodename) {
+            return this._getNode(n, nodename) === '1';
+        },
+        
+        _getNodeInt: function (n, nodename) {
+            return parseInt(this._getNode(n, nodename), 10);
         },
         
         read: function () {
@@ -157,5 +218,4 @@
     };
     
     Backbone.torrentSyncRtorrentXMLRPC = new SyncEngine();
-    window.SyncEngine = SyncEngine;
 }(window));
