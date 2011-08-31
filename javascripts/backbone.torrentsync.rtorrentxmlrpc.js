@@ -184,35 +184,110 @@
             
         },
         
+        _readCollectionParams: [
+            'name', //Make an array for all loaded torrents
+            'd.get_hash=',                //[0]  The torrent hash
+            'd.get_name=',                //[1]  Torrent's name
+            
+            'd.get_state=',               //[2]  0 = stopped, 1 = started
+            'd.get_complete=',            //[3]  1 = finished
+            'd.is_hash_checking=',        //[4]  1 = hashing
+            
+            'd.get_priority=',            //[5]  Torrent priority
+            'd.get_chunk_size=',          //[6]  Size of a chunk in bytes
+            'd.get_size_chunks=',         //[7]  How many chunks in torrent
+            'd.get_completed_chunks=',    //[8]  Downloaded chunks
+            
+            'd.get_down_total=',          //[8]  Total bytes downloaded
+            'd.get_up_total=',            //[9]  Total bytes uploaded
+            'd.get_down_rate=',           //[10] Download rate in bytes
+            'd.get_up_rate=',             //[11] Upload rate in bytes
+            
+            'd.get_peers_complete=',      //[12] Seeders
+            'd.get_peers_accounted=',     //[13] Leechers
+            'd.get_peers_connected=',     //[14] Connected Peers
+            'd.get_peers_not_connected=', //[15] Not Connected Peers
+            
+            'd.get_skip_total=',          //[16] How many wasted bytes?
+            'd.get_creation_date=',       //[17] Date torrent added (EPOCH)
+            'd.get_base_path=',           //[18] Torrents Path
+            
+            'd.is_private=',              //[19] Is torrent private?
+            'd.get_custom5='              //[20] Extra torrent meta JSON
+        ],
+        
         readCollection: function () {
-            this._sendMessage('d.multicall', [
-                'name', //Make an array for all loaded torrents
-                'd.get_hash=',  //The torrent hash
-                'd.get_name=', //Torrent's name
-                'd.get_state=',  //0 = stopped, 1 = started
-                'd.get_up_total=',  //How much in total has been uploaded
-                'd.get_down_rate=',  //Download rate in bytes
-                'd.get_up_rate=',  //Upload rate in bytes
-                'd.get_peers_connected=',  //Amount of connected peers
-                'd.get_peers_not_connected=',  //Amount of unconnected peers
-                'd.get_peers_accounted=',  //Number of leechers
-                'd.get_complete=',  //Is the torrent completely downloaded?
-                'd.is_hash_checking=',  //Is it rehashing?
-                'd.get_creation_date=',  //Date torrent added
-                'd.get_base_path=',  //Where the torrent exists
-                'd.get_free_diskspace=',  //Free disk space where torrent is
-                'd.is_private=',  //Is torrent private?
-                'd.get_message=',  //Comment
-                'd.get_priority=',  //Priority (number)
-                'd.is_hash_checked=',  //Has it been hash checked before?
-                'd.get_skip_total=',  //How many wasted bytes?
-                'd.get_custom5=',  //Extra torrent meta JSON
-                //http://libtorrent.rakshasa.no/ticket/1538
-                //dont use get_size_bytes, multiply chunk_size by size_chunks
-                'd.get_chunk_size=',  //Get the size of a single chunk in bytes
-                'd.get_size_chunks=',  //Get how many chunks are in the torrent
-                'd.get_completed_chunks=' //Get how many chunks have downloaded.
-            ]);
+            this._sendMessage([
+                ['d.multicall', this._readCollectionParams]
+            ], this.parseReadCollection);
+        },
+        
+        parseReadCollection: function (values) {
+            var ret = [];
+            _.each(values.find('data>value>array>data'), function (torrent) {
+                this._dataFragment = $(torrent);
+                
+                var customValues = JSON.parse(this._getNode(20)) || {},
+                    active = this._getNodeBool(2),
+                    complete = this._getNodeBool(3),
+                    numChunks = this._getNodeBool(7);
+                
+                ret.push({
+                    hash: this._getNode(0),
+                    name: this._getNode(1),
+                    alias: customValues.alias || '',
+                    labels: customValues.labels || [],
+                    
+                    state: this._getNodeBool(4) ?
+                                'hashing' :
+                                (complete ?
+                                    (active ? 'seeding' : 'complete') :
+                                    (active ? 'downloading' : 'paused')),
+                    active: active,
+                    complete: complete,
+                    
+                    priority: this._getNode(5),
+                    size: this._getNodeInt(6) * numChunks,
+                    progress: Math.floor(
+                                (this._getNodeInt(8) / numChunks) * 100),
+                    
+                    downloaded: this._getNodeInt(8),
+                    uploaded: this._getNodeInt(9),
+                    downspeed: this._getNodeInt(10),
+                    upspeed: this._getNodeInt(11),
+                    
+                    seeds: this._getNodeInt(12),
+                    leechers: this._getNodeInt(13),
+                    totalpeersconnected: this._getNodeInt(14),
+                    totalpeers: this._getNodeInt(14) + this._getNodeInt(15),
+                    
+                    wasted: this._getNodeInt(16),
+                    dateadded: this._getNodeInt(17),
+                    savedin: this._getNode(18),
+                    
+                    lastupdated: Number(new Date()),
+                    
+                    'private': this._getNodeBool(19)
+                });
+            }, this);
+            
+            return (this.successJSON = ret);
+        },
+        
+        pauseCollection: function () {
+            this._sendMessage([
+                [ 'd.multicall', ['started', 'd.stop='] ],
+                [ 'd.multicall', ['stopped', 'd.close='] ],
+                [ 'd.multicall', this._readCollectionParams ]
+            ], [false, false, this.parseReadCollection]);
+        },
+        
+        resumeCollection: function () {
+            this._sendMessage([
+                [ 'd.multicall', ['closed', 'd.open='] ],
+                [ 'd.multicall', ['stopped', 'd.start='] ],
+                [ 'd.multicall', this._readCollectionParams ]
+            ], [false, false, this.parseReadCollection]);
         }
         
     };
