@@ -81,6 +81,60 @@ Models.TorrentCollection = $.collection.extend({
     initialize: function () {
         $.info('Initialising Models.TorrentCollection');
         this.fetch();
+    },
+    
+    updateModels: function (models) {
+        _.each(models, function (modelData) {
+            var model = this.get(modelData.hash);
+            
+            if (model) {
+                model.set(modelData);
+            } else {
+                this.add(modelData);
+            }
+        }, this);
+    },
+    
+    _collectionSyncHelper: function (syncCommand, success, options) {
+        options = options || {};
+        
+        var optsuccess = options.success, successFunc;
+        
+        if (typeof success === 'string') {
+            successFunc = function (resp, status, xhr) {
+                this[success](this.parse(resp, xhr));
+            };
+        } else {
+            successFunc = success;
+        }
+        
+        options.success = _.bind(function (resp, status, xhr) {
+            successFunc.call(this, resp, status, xhr);
+            if (optsuccess) {
+                optsuccess(this, resp);
+            }
+        }, this);
+        
+        if (!options.error) {
+            options.error = _.bind(function (resp) {
+                this.trigger('error', this, resp, options);
+            }, this);
+        }
+        
+        return this.sync.call(this, syncCommand, this, options);
+    },
+    
+    // Like fetch, but only updates existing records
+    update: function (options) {
+        return this._collectionSyncHelper('read', 'updateModels', options);
+    },
+    
+    pause: function (options) {
+        return this._collectionSyncHelper('pause', 'updateModels', options);
+    },
+    
+    resume: function (options) {
+        return this._collectionSyncHelper('resume', 'updateModels', options);
     }
     
 });
