@@ -40,33 +40,51 @@ Models.Torrent = $.model.extend({
 
     url: '/RPC',
     sync: $.torrentSync.RtorrentXMLRPC,
+    idAttribute: 'hash',
 
     defaults: {
+        id: '',
         name: '',
         alias: '',
         labels: [],
-        state: 'stopped',
-        priority: 1,
+        state: 'paused',
+        active: false,
+        complete: false,
+        priority: 0,
         size: 0,
+        progress: 0,
         downloaded: 0,
         uploaded: 0,
         downspeed: 0,
         upspeed: 0,
         seeds: 0,
-        peers: 0,
+        leechers: 0,
+        totalpeersconnected: 0,
+        totalpeers: 0,
         wasted: 0,
         dateadded: 0,
         savedin: '',
-        trackerson: 0,
-        trackersoff: 0,
-        trackermsg: '',
-        trackerprivate: 0,
-        health: 1,
-        server: ''
+        lastupdated: 0,
+        'private': false
     },
-
-    initialise: function () {
-        $.log('Added torrent');
+    
+    initialize: function () {
+        this.cid = this.id || this.cid;
+        
+        // Take a snapshot of attributes now and on every save action
+        var updateOldAttributes = _.bind(function () {
+            this._oldAttributes = _.clone(this.attributes);
+        }, this);
+        updateOldAttributes();
+        this.bind('saved', updateOldAttributes);
+    },
+    
+    pause: function (options) {
+        return this.set({active: false}).save();
+    },
+    
+    resume: function (options) {
+        return this.set({active: true}).save();
     }
 
 });

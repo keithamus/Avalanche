@@ -184,6 +184,79 @@
             
         },
         
+        update: function () {
+            // Gather a diff of attributes
+            var attribs = [], method = false;
+            _.each(this.model.toJSON(), function (value, key) {
+                if (this.model._oldAttributes[key] !== value) {
+                    attribs.push(key);
+                }
+            }, this);
+            
+            if (attribs.length === 1) {
+                switch (attribs[0]) {
+                case 'active':
+                    method = this.model.get('active') ? 'resume' : 'pause';
+                    break;
+                case 'priority':
+                    method = 'setPriority';
+                    break;
+                case 'alias':
+                case 'labels':
+                    method = 'setCustom';
+                    break;
+                }
+            }
+            
+            if (method) {
+                $.debug('syncEngine.' + method + ' being called');
+                this[method]();
+            } else {
+                // If we can't change any attributes, then set them back!
+                this.options.success(this.model._oldAttributes);
+            }
+        },
+        
+        pause: function () {
+            this._sendMessage([
+                ['d.stop', [this.model.id]],
+                ['d.close', [this.model.id]]
+            ], function (values) {
+                $.debug('response', values);
+            });
+        },
+        
+        resume: function () {
+            this._sendMessage([
+                ['d.open', [this.model.id]],
+                ['d.start', [this.model.id]]
+            ], function (values) {
+                $.debug('response', values);
+            });
+        },
+        
+        setPriority: function () {
+            this._sendMessage([
+                ['d.set_priority', [this.model.id, this.model.get('priority')]]
+            ], function (values) {
+                $.debug('response', values);
+            });
+        },
+        
+        setCustom: function () {
+            
+            var json = JSON.stringify({
+                labels: this.model.get('labels'),
+                alias: this.model.get('alias')
+            });
+            
+            this._sendMessage([
+                ['d.set_custom5', [this.model.id, json]]
+            ], function (values) {
+                $.debug('response', values);
+            });
+        },
+        
         _readCollectionParams: [
             'name', //Make an array for all loaded torrents
             'd.get_hash=',                //[0]  The torrent hash
