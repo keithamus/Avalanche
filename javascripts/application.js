@@ -40,7 +40,6 @@
     ajax.overrideMimeType("application/json");
     ajax.open('GET', 'javascripts/manifest.json', true);
     ajax.onreadystatechange = function () {
-        console.log('loading', ajax.responseText);
         if (ajax.readyState === 4) {
             var json = JSON.parse(ajax.responseText),
                 scripts = json.files.all.concat(json.files.development),
@@ -48,11 +47,13 @@
                 i = 0, script, loadScript;
                 
             loadScript = function loadScript() {
+                if (scripts[i] === undefined) {
+                    return;
+                }
                 var done = false;
                 script = document.createElement('script');
                 script.src = scripts[i];
                 script.type = 'text/javascript';
-                console.log('loading script ' + script.src);
                 script.onload = script.onreadystatechange = function () {
                     var state = script.readyState;
                     if (!done && (!state || /loaded|complete/.test(state))) {
