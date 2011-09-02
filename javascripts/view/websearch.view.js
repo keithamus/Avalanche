@@ -10,7 +10,7 @@
     window: false
 */
 /*
- * view/websearch.js
+ * view/websearch.view.js
  *
  * Avalanche Project (http://avalanche-bt.com)
  *

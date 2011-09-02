@@ -10,7 +10,7 @@
     window: false
 */
 /*
- * views/statusbar.js
+ * view/statusbar.view.js
  *
  * Avalanche Project (http://avalanche-bt.com)
  *

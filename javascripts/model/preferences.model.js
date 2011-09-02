@@ -10,7 +10,7 @@
     window: false
 */
 /*
- * model/preferences.js
+ * model/preferences.model.js
  *
  * Avalanche Project (http://avalanche-bt.com)
  *

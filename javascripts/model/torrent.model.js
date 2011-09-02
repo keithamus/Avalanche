@@ -10,7 +10,7 @@
     window: false
 */
 /*
- * model/torrent.js
+ * model/torrent.model.js
  *
  * Avalanche Project (http://avalanche-bt.com)
  *

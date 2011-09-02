@@ -10,7 +10,7 @@
     window: false
 */
 /*
- * view/dropdown.js
+ * view/dropdown.view.js
  *
  * Avalanche Project (http://avalanche-bt.com)
  *

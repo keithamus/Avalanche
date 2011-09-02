@@ -10,7 +10,7 @@
     window: false
 */
 /*
- * views/toolbar.js
+ * view/toolbar.view.js
  *
  * Avalanche Project (http://avalanche-bt.com)
  *
