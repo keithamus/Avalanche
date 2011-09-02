@@ -1,0 +1,37 @@
+{
+    "files": {
+        "all": [
+            "javascripts/lib/jquery-1.5.2.js",
+            "javascripts/lib/underscore-1.1.6.js",
+            "javascripts/lib/backbone-0.3.3.js",
+            "javascripts/lib/backbone.localStorage.js",
+            "javascripts/lib/r-0.0.1.js",
+            
+            "javascripts/backbone.torrentsync.rtorrentxmlrpc.js",
+            
+            "javascripts/init.js",
+            
+            "javascripts/i18n/en-GB.js",
+            
+            "javascripts/controller/main.controller.js",
+            
+            "javascripts/model/preferences.model.js",
+            "javascripts/model/websearch.model.js",
+            "javascripts/model/torrent.model.js",
+            
+            "javascripts/view/dropdown.view.js",
+            "javascripts/view/toolbar.view.js",
+            "javascripts/view/websearch.view.js",
+            "javascripts/view/statusbar.view.js"
+        ],
+        
+        "production": [
+            "javascripts/bootstrap.prod.js"
+        ],
+        
+        "development": [
+            "javascripts/lib/slog-0.3.js",
+            "javascripts/bootstrap.dev.js"
+        ]
+    }
+}
