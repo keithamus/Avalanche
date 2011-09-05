@@ -3,7 +3,7 @@
 	url = git://github.com/keithcirkel/Slog.git
 [submodule "javascripts/lib/Backbone"]
 	path = javascripts/lib/Backbone
-	url = git://github.com/documentcloud/backbone.git
+	url = git://github.com/keithcirkel/backbone.git
 [submodule "javascripts/lib/Underscore"]
 	path = javascripts/lib/Underscore
 	url = git://github.com/documentcloud/underscore.git
