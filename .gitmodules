@@ -1,9 +1,9 @@
 [submodule "javascripts/lib/Slog"]
 	path = javascripts/lib/Slog
-	url = git://github.com/keithcirkel/Slog.git
+	url = git://github.com/keithamus/Slog.git
 [submodule "javascripts/lib/Backbone"]
 	path = javascripts/lib/Backbone
-	url = git://github.com/keithcirkel/backbone.git
+	url = git://github.com/keithamus/backbone.git
 [submodule "javascripts/lib/Underscore"]
 	path = javascripts/lib/Underscore
 	url = git://github.com/documentcloud/underscore.git
@@ -12,7 +12,7 @@
 	url = git://github.com/jquery/jquery.git
 [submodule "javascripts/lib/R.js"]
 	path = javascripts/lib/R.js
-	url = git://github.com/keithcirkel/R.js.git
+	url = git://github.com/keithamus/R.js.git
 [submodule "javascripts/lib/Backbone.localStorage"]
 	path = javascripts/lib/Backbone.localStorage
 	url = git://github.com/stefl/Backbone.localStorage.git
